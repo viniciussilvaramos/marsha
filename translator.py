@@ -8,7 +8,7 @@ class Translator(object):
     def __init__(self):
         options = Options()
         options.add_argument("-headless")
-        self.driver = webdriver.Firefox(firefox_options=options)
+        self.driver = webdriver.Firefox(executable_path='./bin/geckodriver', firefox_options=options)
         self.went_to_home = False
 
     def _translate_from_home(self, text, to):
