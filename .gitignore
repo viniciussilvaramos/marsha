@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 *.log
 .cache/
+.vscode/
+.common/
+*.db
