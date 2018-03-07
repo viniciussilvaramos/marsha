@@ -12,3 +12,15 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+.book a{
+  color:#000;
+}
+
+.book a.btn{
+  color: #fff;
+}
+
+body{
+  background-color: #d8d8d8;
+}

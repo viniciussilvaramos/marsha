@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}
+    {{ super() }} - Public Books
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="section">
+        <h5>Public books</h5>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <div class="row book-grid">
+        {% for book in books %}
+            <div class="book col m4 s12">
+                <a href='/book/{{ book["Id"] }}/content' target='_blank'>
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">{{ book["Title"] }}</span>
+                    </div>
+                    <div class="card-action right-align">
+                        <a class="waves-effect waves-light btn grey darken-3" href='/book/{{ book["Id"] }}/content' target='_blank'>open</a>
+                    </div>
+                </div>
+                </a>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts%}
+
+<script src="/js/masonry.pkgd.min.js"></script>
+<script>
+(function($){
+    $(function(){
+        $(".book-grid").masonry({
+            itemSelector:".book",
+            percentPosition:true
+        });
+    });
+})(jQuery)
+</script>
+{% endblock %}

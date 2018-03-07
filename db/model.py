@@ -9,7 +9,6 @@ class Book(Base):
     __tablename__ = 'book'
 
     Id = Column(Integer, primary_key=True)
-    GutembergId = Column(Integer, nullable=False)
     Title = Column(String(), nullable=False)
     Url = Column(String(), nullable=False)
     Rank = Column(Integer, nullable=False)

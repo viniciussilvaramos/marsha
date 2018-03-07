@@ -1,3 +1,4 @@
+import os
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -8,7 +9,12 @@ class Translator(object):
     def __init__(self):
         options = Options()
         options.add_argument("-headless")
-        self.driver = webdriver.Firefox(executable_path='./bin/geckodriver', firefox_options=options)
+        
+        ex_path = os.path.join("bin","geckodriver")
+        if os.name == 'nt':
+            ex_path += ".exe"
+
+        self.driver = webdriver.Firefox(executable_path=ex_path, firefox_options=options)
         self.went_to_home = False
 
     def _translate_from_home(self, text, to):

@@ -23,11 +23,21 @@ def get_books():
         response.encoding = "utf-8"
 
         book["Rank"] = i+1
+        book.pop("GutembergId",None)
 
         b = Book(**book)
         session.add(b)
 
-        for pl in separate(response.text):
+        for pl in list(separate(response.text)):
+            #if pl.find('The Project Gutenberg EBook of') != -1:
+                #continue
+
+            #if pl.find('CONTENTS') != -1:
+            #    continue
+
+            #if pl.find('End of the Project Gutenberg EBook of') != -1:
+                #continue
+                
             p = Paragraph(Value=pl, Book=b)
             session.add(p)
         
