@@ -1,0 +1,3 @@
+{
+    "db_uri":"sqlite:///bin/books.db"
+}

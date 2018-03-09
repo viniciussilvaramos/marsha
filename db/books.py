@@ -1,11 +1,12 @@
 from db.model import Book, Paragraph
 from sqlalchemy.orm import sessionmaker, join
+from sqlalchemy import create_engine
 
 class BooksDB(object):
 
-    def __init__(self, engine):
+    def __init__(self, db_uri):
+        self.engine = create_engine(db_uri)
         self.dbSession = sessionmaker()
-        self.engine = engine
     
     def _get_session(self):
         return self.dbSession(bind=self.engine)
@@ -43,4 +44,20 @@ class BooksDB(object):
             session.close()
 
         return book
+
+    def save(self, book, paragraphs):
+        session = self._get_session()
+        try:
+            b = Book(**book)
+            session.add(b)
+
+            for pl in paragraphs:
+                p = Paragraph(Value=pl, Book=b)
+                session.add(p)
+            
+            session.commit()
+        except:
+            session.rollback()
+        finally:
+            session.close()
 

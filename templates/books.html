@@ -1,31 +1,40 @@
 {% extends "layout.html" %}
 {% block title %}
-    {{ super() }} - Public Books
+    {{ super() }} - Domínio Público
 {% endblock %}
 {% block content %}
 
 <div class="container">
     <div class="section">
-        <h5>Public books</h5>
+        <h5>Domínio Público</h5>
     </div>
     <div class="divider"></div>
     <div class="section">
-      <div class="row book-grid">
-        {% for book in books %}
-            <div class="book col m4 s12">
-                <a href='/book/{{ book["Id"] }}/content' target='_blank'>
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">{{ book["Title"] }}</span>
-                    </div>
-                    <div class="card-action right-align">
-                        <a class="waves-effect waves-light btn grey darken-3" href='/book/{{ book["Id"] }}/content' target='_blank'>open</a>
-                    </div>
-                </div>
-                </a>
+        {% if not books %}
+            <div class="row center">
+                <h5 class="col s12  light">Não há livros cadatrados. Clique no botão abaixo para buscar livros do site <a href="http://www.gutenberg.org/" target="_blank">Gutemberg.org</a></h5>
             </div>
-        {% endfor %}
-      </div>
+            <div class="row center">
+                <a href="/books" id="download-button" class="btn-large waves-effect waves-light grey darken-3">Buscar Livros</a>
+            </div>
+        {% else %}
+            <div class="row book-grid">
+            {% for book in books %}
+                <div class="book col m4 s12">
+                    <a href='/book/{{ book["Id"] }}/content' target='_blank'>
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">{{ book["Title"] }}</span>
+                        </div>
+                        <div class="card-action right-align">
+                            <a class="waves-effect waves-light btn grey darken-3" href='/book/{{ book["Id"] }}/content' target='_blank'>open</a>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
     </div>
 </div>
 

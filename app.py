@@ -1,30 +1,40 @@
+# -*- coding: utf-8 -*-
+
+from translator.selenium import Translator
 from db.books import BooksDB
-from translator import Translator
-from flask import Flask, render_template, jsonify
-from sqlalchemy import create_engine
+from helper.gutenberg import Gutenberg
+from colorama import Fore, init
+from json import loads
 
-app = Flask(__name__, static_url_path="")
-engine = create_engine("sqlite:///books.db")
-books_db = BooksDB(engine)
-translator = Translator()
+with open("config.json") as f:
+    b = BooksDB(loads(f.read())["db_uri"])
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+def baixar_livros():
+    print("\n" + Fore.LIGHTGREEN_EX + "### Baixando livros" + Fore.RESET)
+    g = Gutenberg(b)
+    g.start()
+    print(Fore.GREEN + "### Voltando para opções iniciais.\n" + Fore.RESET)
 
-@app.route("/books")
-def get_books():
-    books = books_db.all() 
-    return render_template("books.html", books=books)
+def iniciar_treino():
+    print("\n" + Fore.LIGHTGREEN_EX + "### Treinando idioma\n" + Fore.RESET)
+    pass
 
-@app.route("/book/<id>/content")
-def content(id):
-    book = books_db.content(id)
-    return render_template("content.html", Title=book["Title"], Content=book["Content"])
+def main():
+    init()
+    while True:
+        print("Escolha o que você deseja fazer:")
+        print(Fore.LIGHTYELLOW_EX + "[B]" + Fore.RESET + "aixar os livros de domínio públic do Gutenberg.org;")
+        print(Fore.LIGHTYELLOW_EX + "[T]" + Fore.RESET + "reinar algum idioma")
+        answer = input("Escolha: [B, T]: ").lower()
 
-@app.route("/translate")
-def translate():
-    return translator.translate("Eu amei essa idéia!", "russo")
+        if answer == "b":
+            baixar_livros()
 
-if __name__== '__main__':
-    app.run(host='0.0.0.0',port=80, debug=True)
+        elif answer == "t":
+            iniciar_treino()
+
+        else:
+            print(Fore.LIGHTRED_EX + "Escolha inválida!" + Fore.RESET)
+
+if __name__ == '__main__':
+    main()

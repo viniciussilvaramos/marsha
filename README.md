@@ -1,5 +1,4 @@
-# Marsha
-Easy translator based on python and google translator site.
+# PyLanguageTeacher
+Um projeto web para ajudar as pessoas as aprender um novo idioma.
 
-### Warning
-This project was created for the purpose of studies only! Use it responsibly not to have your ip banned.
+Para tal, utilizamos os livros gratuitos do site gutemberg.org e apis gratuitas de conversão de texto.
