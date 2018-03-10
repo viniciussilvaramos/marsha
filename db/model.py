@@ -21,6 +21,6 @@ class Paragraph(Base):
     BookId = Column(Integer, ForeignKey("book.Id"))
     Book = relationship(Book)
 
-engine = create_engine('sqlite:///books.db')
-
-Base.metadata.create_all(engine)
+def init(db_uri):
+    engine = create_engine(db_uri)
+    Base.metadata.create_all(engine)

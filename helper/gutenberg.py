@@ -91,3 +91,8 @@ class Gutenberg(object):
                 value = el.text.strip()
                 if value:
                     yield value
+
+if __name__ == '__main__':
+    from db.books import BooksDB
+    g = Gutenberg(BooksDB("sqlite:///books.db"))
+    g.start()

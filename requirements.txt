@@ -6,3 +6,4 @@ parsel
 flask
 sqlalchemy
 requests
+colorama

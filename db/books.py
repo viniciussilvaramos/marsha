@@ -1,10 +1,11 @@
-from db.model import Book, Paragraph
+from db.model import Book, Paragraph, init
 from sqlalchemy.orm import sessionmaker, join
 from sqlalchemy import create_engine
 
 class BooksDB(object):
 
     def __init__(self, db_uri):
+        init(db_uri)
         self.engine = create_engine(db_uri)
         self.dbSession = sessionmaker()
     
@@ -58,6 +59,7 @@ class BooksDB(object):
             session.commit()
         except:
             session.rollback()
+            print("Um erro ocorreu.")
         finally:
             session.close()
 
