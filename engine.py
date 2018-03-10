@@ -6,15 +6,32 @@ from selenium.webdriver.common.keys import Keys
 class Translator(object):
 
     def __init__(self):
-        options = webdriver.ChromeOptions()
-        #options.add_argument("-headless")
-        
-        ex_path = os.path.join("bin","chromedriver")
+        self.driver = self._get_driver()
+        self.went_to_home = False
+
+    def _check_driver_path(self, executable):
+        ex_path = os.path.join("bin", executable)
         if os.name == 'nt':
             ex_path += ".exe"
+        
+        if os.path.exists(ex_path):
+            return ex_path
+            
+    def _get_driver(self):
+        ch_path = self._check_driver_path("chromedriver")
+        if ch_path:
+            options = webdriver.ChromeOptions()
+            #options.add_argument("-headless")
+            return webdriver.Chrome(executable_path=ch_path, chrome_options=options)
 
-        self.driver = webdriver.Chrome(executable_path=ex_path, chrome_options=options)
-        self.went_to_home = False
+        ff_path = self._check_driver_path("geckodriver")
+        if ff_path:
+            options = webdriver.FirefoxOptions()
+            #options.add_argument("-headless")
+            return webdriver.Firefox(executable_path=ff_path, firefox_options=options)
+
+        raise Exception("Não há drivers disponíveis!")
+
 
     def _translate_from_home(self, text, to):
         self.went_to_home = True
