@@ -1,3 +1,4 @@
+import os
 from colorama import Fore
 
 def limpar():
@@ -69,7 +70,12 @@ class Navigator(object):
 
     def _get_text(self, array):
         text = " ".join(array)
-        return text.split()
+        result = []
+        for l in text.split():
+            t = l.strip()
+            if t:
+                result.append(t)
+        return result
 
     def _get_next(self, counter):
         fr = 0
@@ -82,8 +88,6 @@ class Navigator(object):
             fr = self.current_pos
             to = self.current_pos + counter
 
-        #print(locals())
-
         if fr < 0:
             fr = 0
         if to > len(self.text):    
@@ -94,7 +98,6 @@ class Navigator(object):
         else:
             self.current_pos = to
 
-        #print(locals())
         return self.text[fr:to]
         #self.begin = False
         #self.end = False

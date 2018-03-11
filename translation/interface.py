@@ -2,7 +2,7 @@ import os
 import sys, signal
 from colorama import Fore
 from engine.brownser import Translator
-from .common import limpar, help
+from .common import limpar, help, Command, Navigator
 
 class UserInterface(object):
 
@@ -10,13 +10,15 @@ class UserInterface(object):
         self.tr = Translator()
         self.idioma = idioma
         self.livro = livro
-        self.paragrafos = paragrafos 
+        self.nav = Navigator(paragrafos)
         signal.signal(signal.SIGINT, lambda x,y: self.tr.close())
 
     def mostrar(self, texto, meta):
         limpar()
         titulo = self.livro["Title"] 
         print(Fore.LIGHTGREEN_EX + "{pad} {t} {pad}".format(pad="#" * 7, t=titulo) + Fore.RESET)
+        for m in meta:
+            print(Fore.BLUE + "{}: {}".format(m, meta[m]) + Fore.RESET)
         print(Fore.BLUE + "\n### Original\n" + Fore.RESET)
         print(texto)
         print(Fore.BLUE + "\n### Tradução\n" + Fore.RESET)
@@ -28,30 +30,32 @@ class UserInterface(object):
             print()
             print(Fore.YELLOW + "Ideograma: " + Fore.RESET + result["ideogram"])
 
-    def obter_proximo(self, command):
-        if not command:
-            raise Exception("Invalid command!")
-
-        cmd = command[::-1]
-        sel = cmd.pop(0)
-        mod = cmd.pop(0)
-        qtd = 1 
-    
+    def obter_proximo(self, cmd):
+        command = Command(cmd)
+        text = self.nav.get(command)
+        return text
 
     def iniciar_treino(self):
-        cmd = "p"
+        cmd = "10n"
+        meta = {}
         try:
             while True:
-                meta, texto = self.obter_proximo(cmd)
+                meta["Ultimo Comando"] = cmd 
+                texto = self.obter_proximo(cmd)
                 self.mostrar(texto, meta)
-                print("\n" * 2)
+                meta["Ultima Frase"] = texto 
+                print("\n")
                 print(Fore.BLUE + "Digite -h para ajuda") 
                 print("Comando: " + Fore.RESET, end="") 
-                cmd = input()
-                if cmd == "-h":
+                u_cmd = input()
+                if u_cmd == "-h":
                     help()
-                elif cmd == "-s":
+                elif u_cmd == "-s" or u_cmd == "s" or u_cmd == "q":
                     self.tr.close()
                     return
+                elif u_cmd == "":    
+                    continue
+
+                cmd = u_cmd
         finally:
             self.tr.close()
