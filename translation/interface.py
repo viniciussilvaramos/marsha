@@ -36,7 +36,7 @@ class UserInterface(object):
         return text
 
     def iniciar_treino(self):
-        cmd = "10n"
+        cmd = "1n"
         meta = {}
         try:
             while True:
