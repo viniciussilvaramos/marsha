@@ -10,7 +10,7 @@ class Translator(object):
         self.went_to_home = False
 
     def _check_driver_path(self, executable):
-        ex_path = os.path.join("bin", executable)
+        ex_path = os.path.join(os.path.join(os.path.dirname(__file__), "bin"), executable)
         if os.name == 'nt':
             ex_path += ".exe"
         
@@ -90,4 +90,6 @@ class Translator(object):
     #elem.send_keys("Mas que belo dia, não é mesmo?")
 
 
-
+if __name__ == '__main__':
+    t = Translator()
+    t.translate("Mas que belo dia, não é mesmo?", "francês")
