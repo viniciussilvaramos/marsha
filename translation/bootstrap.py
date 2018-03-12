@@ -54,10 +54,6 @@ class Treino(object):
             if not e_livro:
                 return False
 
-            if e_livro == "n":
-                pagina += 1
-                continue
-
             try:
                 self.livro_selecionado = books[int(e_livro) - 1]
                 print("Livro selecionado: " + Fore.LIGHTYELLOW_EX + self.livro_selecionado["Title"] + Fore.RESET)

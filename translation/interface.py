@@ -10,7 +10,7 @@ class UserInterface(object):
         self.tr = Translator()
         self.idioma = idioma
         self.livro = livro
-        self.nav = Navigator(paragrafos)
+        self.nav = Navigator(paragrafos["Content"])
         signal.signal(signal.SIGINT, lambda x,y: self.tr.close())
 
     def mostrar(self, texto, meta):
@@ -42,6 +42,11 @@ class UserInterface(object):
             while True:
                 meta["Ultimo Comando"] = cmd 
                 texto = self.obter_proximo(cmd)
+
+                if not texto:
+                    print(Fore.LIGHTGREEN_EX + "### Fim do livro"+ Fore.RESET)
+                    return
+
                 self.mostrar(texto, meta)
                 meta["Ultima Frase"] = texto 
                 print("\n")
