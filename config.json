@@ -1,3 +1,4 @@
 {
-    "db_uri":"sqlite:///bin/books.db"
+    "db_uri":"sqlite:///bin/books.db",
+    "debug": false
 }

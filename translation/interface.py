@@ -10,12 +10,12 @@ class UserInterface(object):
         self.tr = Translator()
         self.idioma = idioma
         self.livro = livro
-        self.nav = Navigator(paragrafos["Content"])
+        self.nav = Navigator(paragrafos)
         signal.signal(signal.SIGINT, lambda x,y: self.tr.close())
 
     def mostrar(self, texto, meta):
         limpar()
-        titulo = self.livro["Title"] 
+        titulo = self.livro.Titulo
         print(Fore.LIGHTGREEN_EX + "{pad} {t} {pad}".format(pad="#" * 7, t=titulo) + Fore.RESET)
         for m in meta:
             print(Fore.BLUE + "{}: {}".format(m, meta[m]) + Fore.RESET)
